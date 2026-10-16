@@ -47,10 +47,29 @@ async function tg(env, method, body) {
   return resp.json();
 }
 
+/** ثبت پیام کاربر در Google Sheet (از طریق Apps Script Web App) */
+function logToSheet(ctx, env, message) {
+  if (!env.SHEET_LOG_URL) return; // اگر تنظیم نشده، رد شو
+  ctx.waitUntil(
+    fetch(env.SHEET_LOG_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: message.chat.id,
+        first_name: message.from.first_name || "",
+        username: message.from.username || "",
+        text: message.text || "",
+      }),
+    }).catch((err) => console.error("sheet log error:", err))
+  );
+}
+
 /** پیام‌های معمولی کاربر */
-async function handleMessage(env, message) {
+async function handleMessage(ctx, env, message) {
   const chatId = message.chat.id;
   const text = message.text || "";
+
+  logToSheet(ctx, env, message);
 
   if (text.startsWith("/start")) {
     await tg(env, "sendMessage", {
@@ -96,7 +115,7 @@ async function handleCallback(env, callbackQuery) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     // سلام‌اندازی — راهنمای وضعیت
@@ -133,7 +152,7 @@ export default {
 
       const update = await request.json();
       try {
-        if (update.message) await handleMessage(env, update.message);
+        if (update.message) await handleMessage(ctx, env, update.message);
         else if (update.callback_query)
           await handleCallback(env, update.callback_query);
       } catch (err) {
