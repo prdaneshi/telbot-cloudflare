@@ -1,0 +1,17 @@
+{
+  "name": "telbot-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "login": "wrangler login",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "set-bot-token": "wrangler secret put BOT_TOKEN",
+    "set-webhook-secret": "wrangler secret put WEBHOOK_SECRET",
+    "set-admin": "wrangler secret put ADMIN_CHAT_ID"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
