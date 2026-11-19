@@ -1,3 +1,9 @@
 name = "telbot"
 main = "src/worker.js"
 compatibility_date = "2026-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "telbot-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
