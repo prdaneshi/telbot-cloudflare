@@ -67,7 +67,8 @@ npx wrangler deploy
 
 ## افزودن آزمون
 
-سؤال‌ها و قوانین نمره‌گذاری داخل Worker هاردکد نشده‌اند. هر آزمون باید در جدول‌های
+سؤال‌ها و قوانین نمره‌گذاری داخل Worker هاردکد نشده‌اند. قالب ورود و ابزار ساخت SQL
+در `test-data/neo.template.json` و `scripts/build-test-sql.mjs` قرار دارد. هر آزمون باید در جدول‌های
 `tests`, `test_versions`, `dimensions`, `questions`, `options`, `question_scoring`
 و `result_interpretations` ثبت شود. بنابراین افزودن NEO یا آزمون‌های بعدی بدون
 تغییر موتور اجرای آزمون انجام می‌شود.

@@ -10,6 +10,7 @@
     "db:create": "wrangler d1 create telbot-db",
     "db:migrate": "wrangler d1 migrations apply telbot-db",
     "db:migrate:local": "wrangler d1 migrations apply telbot-db --local",
+    "test:build-sql": "node scripts/build-test-sql.mjs",
     "set-bot-token": "wrangler secret put BOT_TOKEN",
     "set-webhook-secret": "wrangler secret put WEBHOOK_SECRET",
     "set-admin": "wrangler secret put ADMIN_CHAT_ID"

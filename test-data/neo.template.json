@@ -1,0 +1,49 @@
+{
+  "id": "neo",
+  "title": "تست شخصیت نئو",
+  "description": "توضیح آزمون پس از تأیید متن رسمی وارد شود.",
+  "active": false,
+  "sortOrder": 10,
+  "version": {
+    "label": "fa-licensed-1",
+    "instructions": "به هر عبارت بر اساس دستورالعمل رسمی آزمون پاسخ دهید.",
+    "active": false,
+    "scale": {
+      "min": 0,
+      "max": 4
+    }
+  },
+  "dimensions": [
+    {
+      "key": "dimension_key",
+      "title": "نام بُعد",
+      "description": "توضیح تأییدشدهٔ بُعد",
+      "sortOrder": 0
+    }
+  ],
+  "options": [
+    { "position": 0, "label": "کاملاً مخالفم", "value": 0 },
+    { "position": 1, "label": "مخالفم", "value": 1 },
+    { "position": 2, "label": "نظری ندارم", "value": 2 },
+    { "position": 3, "label": "موافقم", "value": 3 },
+    { "position": 4, "label": "کاملاً موافقم", "value": 4 }
+  ],
+  "questions": [
+    {
+      "position": 0,
+      "text": "متن سؤال رسمی اینجا قرار گیرد.",
+      "scoring": [
+        { "dimension": "dimension_key", "weight": 1, "reverse": false }
+      ]
+    }
+  ],
+  "interpretations": [
+    {
+      "dimension": "dimension_key",
+      "min": 0,
+      "max": 4,
+      "level": "نمونه",
+      "text": "متن تفسیر تأییدشده اینجا قرار گیرد."
+    }
+  ]
+}
