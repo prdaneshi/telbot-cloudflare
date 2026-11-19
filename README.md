@@ -7,6 +7,7 @@
 
 - موتور عمومی اجرای آزمون‌های روان‌شناختی با داده‌های قابل نسخه‌بندی
 - نگهداری جلسه، پاسخ‌ها و نتایج در Cloudflare D1
+- محاسبهٔ دوبارهٔ نتیجه با پاسخ‌های ذخیره‌شده از طریق «🔄 ارزیابی مجدد» در منوی اصلی یا دکمهٔ پیام نتیجه در گفت‌وگوی خصوصی
 - منوی آزمون‌ها و اجرای سؤال‌به‌سؤال با دکمه‌های شیشه‌ای
 - پاسخ به `/start` با منوی دکمه‌ای شیشه‌ای (آزمون‌ها / درباره / راهنما / تماس با ادمین)
 - پاسخ به متن کاربر
@@ -18,10 +19,34 @@
 | فایل | نقش |
 |---|---|
 | `src/worker.js` | کل کد ربات (Cloudflare Worker) |
-| `wrangler.toml` | تنظیمات wrangler |
+| `wrangler.production.toml` | Worker و D1 اختصاصی بات اصلی `@RavanAzmoon_bot` |
+| `wrangler.neo-staging.toml` | Worker و D1 آزمایشی نئو |
+| `wrangler.toml` | تنظیمات Worker قدیمی `telbot` |
 | `migrations/0001_initial.sql` | ساختار D1 برای موتور عمومی آزمون |
 
-## راه‌اندازی با wrangler (CLI)
+## بات اصلی
+
+نشانی Worker اصلی `https://ravanazmoon.prdaneshi.workers.dev` است. آزمون نئو در دیتابیس اختصاصی `ravanazmoon-db` فعال است. برای استقرار نسخه‌های بعدی، فایل تنظیمات اصلی را صریح انتخاب کنید:
+
+```powershell
+npx wrangler deploy --config wrangler.production.toml
+```
+
+برای اولین اتصال به تلگرام، از ریشهٔ پروژه در PowerShell اجرا کنید و توکن `@RavanAzmoon_bot` را از BotFather در ورودی پنهان وارد کنید:
+
+```powershell
+$ravanToken = Read-Host 'BotFather token for @RavanAzmoon_bot' -AsSecureString
+try {
+    [System.Net.NetworkCredential]::new('', $ravanToken).Password | node scripts/connect-production-bot.mjs
+} finally {
+    $ravanToken.Dispose()
+    Remove-Variable ravanToken
+}
+```
+
+اسکریپت توکن و کلید تصادفی وب‌هوک را در Cloudflare Secrets می‌گذارد، با تلگرام نام بات را بررسی می‌کند و نشانی وب‌هوک ثبت‌شده را تأیید می‌کند. پس از تأیید، در گفت‌وگو با بات `/start` را بفرستید. در استقرارهای عادی نیازی به اتصال دوباره نیست. اگر می‌خواهید ثبت پیام‌ها در Google Sheets یا ارسال پیام به ادمین را فعال کنید، به‌ترتیب `SHEET_LOG_URL` یا `ADMIN_CHAT_ID` را به‌عنوان Secret روی همین Worker تنظیم کنید.
+
+## راه‌اندازی Worker قدیمی با wrangler (CLI)
 
 ```powershell
 # ۱) نصب وابستگی‌ها
@@ -50,7 +75,7 @@ npx wrangler deploy
 # آدرس ورکر را در مرورگر باز کنید:  https://telbot.<subdomain>.workers.dev/setup-webhook
 ```
 
-## راه‌اندازی بدون CLI (از داشبورد)
+## راه‌اندازی Worker قدیمی بدون CLI (از داشبورد)
 
 1. در [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Create Worker** → نام `telbot` → **Deploy**
 2. **Edit code** → محتوای `src/worker.js` را جایگزین کنید → **Deploy**

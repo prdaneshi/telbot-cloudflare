@@ -1,0 +1,12 @@
+name = "telbot-neo-staging"
+main = "src/worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = true
+preview_urls = false
+
+# Provision the separate telbot-neo-staging-db database and add it as DB.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "telbot-neo-staging-db"
+database_id = "f28796b1-e703-4429-a9a4-7151f4196d4c"
