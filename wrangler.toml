@@ -5,5 +5,5 @@ compatibility_date = "2026-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "telbot-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "dc1ee539-0b81-40ab-8f09-a6cb50f7d152"
 migrations_dir = "migrations"
